@@ -1,0 +1,16 @@
+main {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .brand-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .brand-logo {
+    max-width: 100%;
+    height: auto;
+  }

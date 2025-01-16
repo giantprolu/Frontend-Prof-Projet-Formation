@@ -1,0 +1,35 @@
+:root {
+    --primary-color:azure;
+}
+.search-bar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.container{
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 50px;
+    justify-content: flex-start;
+  }
+  
+@media (min-width: 500px) and (max-width: 768px) {
+    .results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+  
+@media (max-width: 499px) {
+    .results {
+        grid-template-columns: 1fr;
+    }    
+}
