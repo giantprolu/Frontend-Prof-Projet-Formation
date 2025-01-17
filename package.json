@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "lockfileVersion": 3,
   "requires": true,
+  "scripts": {
+    "build": "ng build --configuration production"},
   "packages": {
     "": {
       "name": "eps",
@@ -239,6 +241,7 @@
         "tailwindcss": "^2.0.0 || ^3.0.0",
         "typescript": ">=5.5 <5.7"
       },
+      
       "peerDependenciesMeta": {
         "@angular/localize": {
           "optional": true
