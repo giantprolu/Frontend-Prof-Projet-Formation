@@ -25,11 +25,6 @@ steps:
     npm run build
   displayName: 'Run and Build'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'EPS'
-    publishLocation: 'Container'
 
 - task: ArchiveFiles@2
   inputs:
@@ -38,4 +33,11 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Compression Zip'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'EPS'
+    publishLocation: 'Container'
+  displayName: 'Publication Artefact'
