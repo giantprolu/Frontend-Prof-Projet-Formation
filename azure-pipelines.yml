@@ -7,9 +7,9 @@
 trigger:
 - master
 - Dev
-# pr:
-# - master
-# - Dev
+pr:
+- master
+- Dev
 
 pool:
   vmImage: ubuntu-latest
@@ -26,15 +26,10 @@ steps:
     npm run build 
   displayName: 'npm install and build'
 
-- task: PublishCodeCoverageResults@2
+- task: ArchiveFiles@2
   inputs:
-    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'  
-- task: Npm@0
-  inputs:
-    command: 'publish'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-   
-# - task: PublishPipelineArtifact@1
-#   inputs:
-#     targetPath: '$(Build.ArtifactStagingDirectory)/EPS.zip' 
-#     artifactName: 'EPS'
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
