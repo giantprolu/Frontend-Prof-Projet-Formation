@@ -33,11 +33,11 @@ steps:
     command: 'custom'
     customCommand: 'run build'
   displayName: 'Run and Build'
-# - script: 
-#     npm install -g @angular/cli
-#     npm install
-#     npm run build
-#   displayName: 'Run and Build'
+
+- script: |
+    echo "Listing files in the dist directory:"
+    ls -R $(Build.SourcesDirectory)/dist
+  displayName: 'List Dist Files'
 
 - task: ArchiveFiles@2
   inputs:
@@ -52,9 +52,4 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'EPS'
     publishLocation: 'pipeline'
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#     ArtifactName: 'EPS'
-#     publishLocation: 'Container'
-#   displayName: 'Publication Artefact'
+
