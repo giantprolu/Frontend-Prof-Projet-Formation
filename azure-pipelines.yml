@@ -41,21 +41,14 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/dist/eps/browser'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/eps'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Browser_Artifacts.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Artifacts.zip'
     replaceExistingArchive: true
-  displayName: 'Compression Zip - Browser'
+  displayName: 'Compression Zip'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/dist/eps/server'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Server_Artifacts.zip'
-    replaceExistingArchive: true
-  displayName: 'Compression Zip - Server'
+
 
 - task: PublishPipelineArtifact@1
   inputs:
