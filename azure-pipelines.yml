@@ -34,19 +34,29 @@ steps:
     customCommand: 'run build'
   displayName: 'Run and Build'
 
-- script: |
-    echo "Listing files in the dist directory:"
-    ls -R $(Build.SourcesDirectory)/dist
-  displayName: 'List Dist Files'
+# - script: |
+#     echo "Listing files in the dist directory:"
+#     ls -R $(Build.SourcesDirectory)/dist
+#   displayName: 'List Dist Files'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/dist/eps'
+    rootFolderOrFile: '$(Build.BinariesDirectory)/dist/eps/browser'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Artifacts.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Browser_Artifacts.zip'
     replaceExistingArchive: true
-  displayName: 'Compression Zip'
+  displayName: 'Compression Zip - Browser'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)/dist/eps/server'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Server_Artifacts.zip'
+    replaceExistingArchive: true
+  displayName: 'Compression Zip - Server'
+
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)'
