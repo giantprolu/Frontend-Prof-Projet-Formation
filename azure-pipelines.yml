@@ -25,7 +25,6 @@ steps:
     npm run build
   displayName: 'Run and Build'
 
-
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
@@ -34,10 +33,14 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
   displayName: 'Compression Zip'
-
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'EPS'
-    publishLocation: 'Container'
-  displayName: 'Publication Artefact'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'EPS'
+    publishLocation: 'pipeline'
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'EPS'
+#     publishLocation: 'Container'
+#   displayName: 'Publication Artefact'
