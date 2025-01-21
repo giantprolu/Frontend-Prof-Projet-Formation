@@ -1,5 +1,4 @@
 # Node.js with Angular
-
 # Build a Node.js project that uses Angular.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
@@ -19,12 +18,18 @@ steps:
   inputs:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
-
-- script: |
-    npm install -g @angular/cli
-    npm install
-    npm run build 
-  displayName: 'npm install and build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'npm install -g @angular/cli'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'npm install'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'npm run build'
 
 - task: ArchiveFiles@2
   inputs:
@@ -39,11 +44,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'EPS'
     publishLocation: 'Container'
-- task: UniversalPackages@0
-  inputs:
-    command: 'publish'
-    publishDirectory: '$(Build.ArtifactStagingDirectory)'
-    feedsToUsePublish: 'internal'
-    vstsFeedPublish: 'c71d1440-28d7-45c9-a49b-8808dc18287a'
-    vstsFeedPackagePublish: 'EPS'
-    versionOption: 'patch'
