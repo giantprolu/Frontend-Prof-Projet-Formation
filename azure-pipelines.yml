@@ -18,12 +18,26 @@ steps:
   inputs:
     versionSpec: '20.x'
   displayName: 'Install Node.js'
-
-- script: 
-    npm install -g @angular/cli
-    npm install
-    npm run build
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli'
+  displayName: 'Install angular'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install'
+  displayName: 'install'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
   displayName: 'Run and Build'
+# - script: 
+#     npm install -g @angular/cli
+#     npm install
+#     npm run build
+#   displayName: 'Run and Build'
 
 - task: ArchiveFiles@2
   inputs:
