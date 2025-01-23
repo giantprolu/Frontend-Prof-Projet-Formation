@@ -27,6 +27,12 @@
               <input class="form-check-input" type="radio" id="garcon" [(ngModel)]="newEleve.sexe" [value]="false" name="sexe">
               <label class="form-check-label" for="garcon">Garçon</label>
             </div>
+            <div>
+              <label for="school" class="form-label">École</label>
+              <select id="school" class="form-select" [(ngModel)]="newEleve.schools" name="school">
+                <option *ngFor="let school of schools" [ngValue]="school">{{ school.nom }}</option>
+              </select>
+            </div>
           </div>
           <div class="col-auto">
             <button type="button" class="btn btn-success" (click)="addOrUpdateEleve()">
@@ -42,7 +48,7 @@
   
     <section class="results">
       <div *ngFor="let eleve of eleves; let i = index">
-        <app-eleve [eleves]="eleve" (delete)="deleteEleve($event)" (select)="selectEleve($event, i)"></app-eleve>
+        <app-eleve [eleves]="eleve" [schools]="schools" (delete)="deleteEleve($event)" (select)="selectEleve($event, i)"></app-eleve>
       </div>
     </section>
 </div>

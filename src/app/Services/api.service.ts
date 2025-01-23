@@ -3,7 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Eleve } from '../Models/eleve';
-import {configuration} from './configuration.service';
+import { School } from '../Models/school';
+import { configuration } from './configuration.service';
 
 /**
  * Service API pour interagir avec les données des élèves.
@@ -42,7 +43,7 @@ export class ApiService {
    * @returns Un Observable contenant un tableau d'objets Eleve.
    */
   getData(): Observable<Eleve[]> {
-    return this.http.get<Eleve[]>(`${this.apiUrl}/endpoint`);
+    return this.http.get<Eleve[]>(`${this.apiUrl}/ListEleve`);
   }
 
   /**
@@ -52,7 +53,7 @@ export class ApiService {
    * @returns Un Observable contenant l'objet Eleve correspondant.
    */
   getDataById(id: number): Observable<Eleve> {
-    return this.http.get<Eleve>(`${this.apiUrl}/${id}`);
+    return this.http.get<Eleve>(`${this.apiUrl}/eleve/${id}`);
   }
 
   /**
@@ -62,7 +63,7 @@ export class ApiService {
    * @returns Un Observable contenant la réponse de la requête HTTP.
    */
   deleteDataById(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/eleve/${id}`).pipe(
       catchError(this.handleError)
     );
   }
@@ -74,7 +75,7 @@ export class ApiService {
    * @returns Un Observable contenant l'objet Eleve ajouté.
    */
   postData(eleve: Eleve): Observable<Eleve> {
-    return this.http.post<Eleve>(`${this.apiUrl}`, eleve).pipe(
+    return this.http.post<Eleve>(`${this.apiUrl}/eleve`, eleve).pipe(
       catchError(this.handleError)
     );
   }
@@ -84,12 +85,23 @@ export class ApiService {
    * 
    * @param nom - Nom de l'élève.
    * @param eleve - Objet Eleve contenant les nouvelles données.
+   * @param newSchoolName - Nom de la nouvelle école.
    * @returns Un Observable contenant l'objet Eleve mis à jour.
    */
-  putDataByName(nom: string, eleve: Eleve): Observable<Eleve> {
-    return this.http.put<Eleve>(`${this.apiUrl}/byname/${nom}`, eleve).pipe(
+  putDataByName(nom: string, eleve: Eleve, newSchoolName: string): Observable<Eleve> {
+    const url = `${this.apiUrl}/eleve/updateByName/${nom}?newSchoolName=${newSchoolName}`;
+    return this.http.put<Eleve>(url, eleve).pipe(
       catchError(this.handleError)
     );
+  }
+
+  /**
+   * Récupère la liste des écoles.
+   * 
+   * @returns Un Observable contenant un tableau d'objets School.
+   */
+  getSchools(): Observable<School[]> {
+    return this.http.get<School[]>(`${this.apiUrl}/ListSchools`);
   }
 
   /**
