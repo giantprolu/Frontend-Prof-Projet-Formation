@@ -1,11 +1,12 @@
 <div class="card" *ngIf="eleves"> <!-- Affiche la carte seulement si l'objet eleves est défini -->
     <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
-      <img [src]="eleves.sexe ? 'assets/female-icon.jpg' : 'assets/male-icon.jpg'" class="img-fluid"/> <!-- Image de l'élève -->
+      <img [src]="eleves.sexe ? 'assets/male-icon.jpg' : 'assets/female-icon.jpg'" class="img-fluid"/> <!-- Image de l'élève -->
         <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);" (click)="selectEleve(eleves)"></div> <!-- Masque cliquable pour sélectionner l'élève -->
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ eleves.nom }} {{ eleves.prenom }} <i class="far fa-pen-to-square" (click)="selectEleve(eleves)"></i></h5> <!-- Nom et prénom de l'élève avec une icône cliquable pour sélectionner -->
       <p class="card-text">{{ eleves.age }} ans</p> <!-- Âge de l'élève -->
+      <p class="card-text">École: {{ eleves.schools?.nom || 'École inconnue' }}</p> <!-- Nom de l'école de l'élève -->
       <a class="btn btn-danger" data-mdb-ripple-init (click)="deleteData(eleves)">Supprimer l'élève</a> <!-- Bouton pour supprimer l'élève -->
     </div>
-  </div>
+</div>

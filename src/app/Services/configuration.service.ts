@@ -9,7 +9,7 @@ Injectable({
    
 export const configuration = {
  
-    apiUrl: "http://localhost:8000/api/Eleve"
+    apiUrl: "http://localhost:5029"
  
   };
  

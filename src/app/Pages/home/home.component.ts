@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../../Services/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { School } from '../../Models/school';
 
 // Déclaration du composant Angular avec ses métadonnées
 @Component({
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
   searchText: string = ''; // Texte de recherche
   alertMessage: string | null = null; // Message d'alerte
   alertType: 'success' | 'danger' | null = null; // Type d'alerte
+  schools: School[] = []; // Tableau pour stocker la liste des écoles
 
   // Méthode pour afficher une alerte
   showAlert(message: string, type: 'success' | 'danger') {
@@ -72,11 +74,26 @@ export class HomeComponent implements OnInit {
 
   // Méthode appelée à l'initialisation du composant
   ngOnInit() {
-    // Récupération des données via le service API
+    // Récupération des écoles via le service API
+    this.apiService.getSchools().subscribe({
+      next: (response) => {
+        this.schools = response; // Stockage des écoles reçues
+        console.log('Écoles reçues :', this.schools);
+        // Récupération des données des élèves après avoir chargé les écoles
+        this.loadEleves();
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des écoles :', err);
+      }
+    });
+  }
+
+  // Méthode pour charger les élèves
+  loadEleves() {
     this.apiService.getData().subscribe({
       next: (response) => {
         this.eleves = response; // Stockage des données reçues
-        console.log('Données reçues :', this.eleves);
+        console.log('Élèves reçus :', this.eleves);
         // Abonnement aux paramètres de la route
         this.route.queryParams.subscribe(params => {
           const nom = params['nom'];
@@ -119,7 +136,8 @@ export class HomeComponent implements OnInit {
       nom: eleve.nom,
       prenom: eleve.prenom,
       age: eleve.age,
-      sexe: eleve.sexe
+      sexe: eleve.sexe,
+      schools: eleve.schools
     };
     this.isUpdating = true; // Passage en mode mise à jour
     this.selectedEleveIndex = index; // Stockage de l'index de l'élève sélectionné
@@ -127,10 +145,12 @@ export class HomeComponent implements OnInit {
   
   // Méthode pour ajouter ou mettre à jour un élève
   addOrUpdateEleve() {
-    if (!this.newEleve.nom || !this.newEleve.prenom || !this.newEleve.age || this.newEleve.sexe === undefined) {
+    if (!this.newEleve.nom || !this.newEleve.prenom || !this.newEleve.age || this.newEleve.sexe === undefined || !this.newEleve.schools) {
       this.RemplirChamps();
       return;
     }
+
+    console.log('Nom de la nouvelle école:', this.newEleve.schools.nom);
 
     if (this.isUpdating && this.selectedEleveIndex !== null) {
       const updatedEleve: Eleve = {
@@ -138,14 +158,14 @@ export class HomeComponent implements OnInit {
         nom: this.newEleve.nom,
         prenom: this.newEleve.prenom,
         age: this.newEleve.age,
-        sexe: this.newEleve.sexe
+        sexe: this.newEleve.sexe,
+        schools: this.newEleve.schools
       };
 
-      this.apiService.putDataByName(this.eleves[this.selectedEleveIndex].nom, updatedEleve).subscribe({
+      this.apiService.putDataByName(this.eleves[this.selectedEleveIndex].nom, updatedEleve, this.newEleve.schools.nom).subscribe({
         next: (response) => {
           if (this.selectedEleveIndex !== null) {
             this.eleves[this.selectedEleveIndex] = response; // Mise à jour de l'élève dans la liste
-            
           }
           this.isUpdating = false; // Fin du mode mise à jour
           this.selectedEleveIndex = null; // Réinitialisation de l'index sélectionné
@@ -163,7 +183,8 @@ export class HomeComponent implements OnInit {
         nom: this.newEleve.nom,
         prenom: this.newEleve.prenom,
         age: this.newEleve.age,
-        sexe: this.newEleve.sexe
+        sexe: this.newEleve.sexe,
+        schools: this.newEleve.schools
       };
 
       this.apiService.postData(newEleve as Eleve).subscribe(response => {

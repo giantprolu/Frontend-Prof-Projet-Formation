@@ -1,3 +1,5 @@
+import { School } from './school';
+
 /**
  * Interface représentant un élève.
  */
@@ -31,4 +33,10 @@ export interface Eleve {
    * @type {boolean}
    */
   sexe: boolean;
+
+  /**
+   * Objet représentant l'école de l'élève.
+   * @type {School}
+   */
+  schools: School;
 }
