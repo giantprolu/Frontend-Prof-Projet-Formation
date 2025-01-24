@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchText" placeholder="Rechercher un élève..." class="form-control" (keyup.enter)="search()" />
+    <button class="btn btn-primary" (click)="search()">Rechercher</button>
+  </div>
+  <div class="results">
+    <div *ngFor="let eleve of filteredEleves">
+      <app-eleve-card-search [eleves]="eleve"></app-eleve-card-search>
+    </div>
+  </div>
+</div>

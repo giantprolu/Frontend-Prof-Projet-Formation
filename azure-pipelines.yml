@@ -1,0 +1,58 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+- Dev
+pr:
+- master
+- Dev
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @angular/cli'
+  displayName: 'Install angular'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'install'
+  displayName: 'install'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
+  displayName: 'Run and Build'
+
+# - script: |
+#     echo "Listing files in the dist directory:"
+#     ls -R $(Build.SourcesDirectory)/dist
+#   displayName: 'List Dist Files'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)/dist/eps'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Angular_Artifacts.zip'
+    replaceExistingArchive: true
+  displayName: 'Compression Zip'
+
+
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'EPS'
+    publishLocation: 'pipeline'
+
