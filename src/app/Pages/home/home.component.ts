@@ -206,6 +206,7 @@ export class HomeComponent implements OnInit {
       this.apiService.postData(newEleve as Eleve).subscribe(response => {
         this.eleves.push(response); // Ajout du nouvel élève à la liste
         this.newEleve = {}; // Réinitialisation de l'objet nouvel élève
+        this.refreshPage(); // Rafraîchissement de la page
         this.Ajout();
       });
       
@@ -228,6 +229,4 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
-  
 }
