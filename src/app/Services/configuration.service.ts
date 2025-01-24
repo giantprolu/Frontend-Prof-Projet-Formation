@@ -9,7 +9,7 @@ Injectable({
    
 export const configuration = {
  
-    apiUrl: "http://localhost:5029"
+    apiUrl: "http://localhost:5276"
  
   };
  

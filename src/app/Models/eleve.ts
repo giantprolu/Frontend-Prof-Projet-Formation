@@ -35,6 +35,12 @@ export interface Eleve {
   sexe: boolean;
 
   /**
+   * Identifiant de l'école de l'élève.
+   * @type {number}
+   */
+  schoolId: number;
+
+  /**
    * Objet représentant l'école de l'élève.
    * @type {School}
    */
