@@ -1,6 +1,6 @@
 <div class="card" *ngIf="eleves"> <!-- Affiche la carte seulement si l'objet eleves est défini -->
     <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light">
-      <img [src]="eleves.sexe ? 'assets/male-icon.jpg' : 'assets/female-icon.jpg'" class="img-fluid"/> <!-- Image de l'élève -->
+      <img [src]="eleves.sexe ? 'assets/female-icon.jpg' : 'assets/male-icon.jpg'" class="img-fluid"/> <!-- Image de l'élève -->
         <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);" (click)="selectEleve(eleves)"></div> <!-- Masque cliquable pour sélectionner l'élève -->
     </div>
     <div class="card-body">
