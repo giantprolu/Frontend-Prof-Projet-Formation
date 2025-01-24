@@ -92,7 +92,15 @@ export class HomeComponent implements OnInit {
   loadEleves() {
     this.apiService.getData().subscribe({
       next: (response) => {
-        this.eleves = response; // Stockage des données reçues
+        this.eleves = response.map(eleve => {
+          const school = this.schools.find(s => s.id === eleve.schoolId);
+          if (school) {
+            return { ...eleve, schools: school };
+          } else {
+            console.error(`School not found for eleve: ${eleve.nom}`);
+            return { ...eleve, schools: {} as School }; // or handle the error as needed
+          }
+        });
         console.log('Élèves reçus :', this.eleves);
         // Abonnement aux paramètres de la route
         this.route.queryParams.subscribe(params => {
@@ -137,6 +145,7 @@ export class HomeComponent implements OnInit {
       prenom: eleve.prenom,
       age: eleve.age,
       sexe: eleve.sexe,
+      schoolId: eleve.schoolId, // Ajoutez cette ligne pour inclure schoolId
       schools: eleve.schools
     };
     this.isUpdating = true; // Passage en mode mise à jour
@@ -159,18 +168,24 @@ export class HomeComponent implements OnInit {
         prenom: this.newEleve.prenom,
         age: this.newEleve.age,
         sexe: this.newEleve.sexe,
+        schoolId: this.newEleve.schools.id, // Utilisez l'ID de la nouvelle école
         schools: this.newEleve.schools
       };
 
       this.apiService.putDataByName(this.eleves[this.selectedEleveIndex].nom, updatedEleve, this.newEleve.schools.nom).subscribe({
         next: (response) => {
           if (this.selectedEleveIndex !== null) {
-            this.eleves[this.selectedEleveIndex] = response; // Mise à jour de l'élève dans la liste
+            const school = this.schools.find(s => s.id === updatedEleve.schoolId);
+            if (school) {
+              this.eleves[this.selectedEleveIndex] = { ...response, schools: school }; // Mise à jour de l'élève dans la liste avec l'école correcte
+            } else {
+              this.eleves[this.selectedEleveIndex] = response;
+            }
           }
           this.isUpdating = false; // Fin du mode mise à jour
           this.selectedEleveIndex = null; // Réinitialisation de l'index sélectionné
           this.newEleve = {}; // Réinitialisation de l'objet nouvel élève
-          this.refreshEleves(); // Rafraîchissement de la liste des élèves
+          this.refreshPage(); // Rafraîchissement de la page
           this.MAJ();
         },
         error: (err) => {
@@ -184,16 +199,23 @@ export class HomeComponent implements OnInit {
         prenom: this.newEleve.prenom,
         age: this.newEleve.age,
         sexe: this.newEleve.sexe,
+        schoolId: this.newEleve.schools.id, // Utilisez l'ID de la nouvelle école
         schools: this.newEleve.schools
       };
 
       this.apiService.postData(newEleve as Eleve).subscribe(response => {
         this.eleves.push(response); // Ajout du nouvel élève à la liste
         this.newEleve = {}; // Réinitialisation de l'objet nouvel élève
+        this.refreshPage(); // Rafraîchissement de la page
         this.Ajout();
       });
       
     }
+  }
+
+  // Méthode pour rafraîchir la page
+  refreshPage() {
+    location.reload();
   }
 
   // Méthode pour rafraîchir la liste des élèves
@@ -207,6 +229,4 @@ export class HomeComponent implements OnInit {
       }
     });
   }
-
-  
 }
