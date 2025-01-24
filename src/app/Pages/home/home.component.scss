@@ -1,0 +1,41 @@
+:root {
+    --primary-color:azure;
+}
+.container{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 50px;
+    justify-content: flex-start;
+}
+
+.card {
+    width: 100%;
+    max-width: 300px;
+}
+.alert-danger{
+    background-color: white;
+    color : red;
+}
+.alert-success{
+    background-color: white;
+    color : rgb(29, 212, 29);
+}
+@media (min-width: 500px) and (max-width: 768px) {
+    .results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+  
+@media (max-width: 499px) {
+    .results {
+        grid-template-columns: 1fr;
+    }    
+}

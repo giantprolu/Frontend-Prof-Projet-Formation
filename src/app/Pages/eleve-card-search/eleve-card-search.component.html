@@ -1,0 +1,10 @@
+<div class="card" (click)="navigateToEdit(eleves)"> <!-- Div cliquable qui déclenche la méthode navigateToEdit -->
+    <div class="bg-image hover-overlay" data-mdb-ripple-init data-mdb-ripple-color="light"> <!-- Image avec effet de survol -->
+      <img [src]="eleves.sexe ? 'assets/female-icon.jpg' : 'assets/male-icon.jpg'" class="img-fluid"/> <!-- Image de l'élève -->
+        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);" ></div> <!-- Masque pour l'effet de survol -->
+    </div>
+    <div class="card-body"> <!-- Corps de la carte -->
+      <h5 class="card-title">{{ eleves.nom }} {{ eleves.prenom }} <i class="far fa-pen-to-square" ></i></h5> <!-- Titre de la carte avec le nom et prénom de l'élève -->
+      <p class="card-text">{{ eleves.age }} ans</p> <!-- Texte de la carte avec l'âge de l'élève -->
+    </div>
+  </div>
