@@ -81,15 +81,14 @@ export class ApiService {
   }
 
   /**
-   * Met à jour les données d'un élève par son nom.
+   * Met à jour les données d'un élève par son identifiant.
    * 
-   * @param nom - Nom de l'élève.
+   * @param id - Identifiant de l'élève.
    * @param eleve - Objet Eleve contenant les nouvelles données.
-   * @param newSchoolName - Nom de la nouvelle école.
    * @returns Un Observable contenant l'objet Eleve mis à jour.
    */
-  putDataByName(nom: string, eleve: Eleve, newSchoolName: string): Observable<Eleve> {
-    const url = `${this.apiUrl}/eleve/updateByName/${nom}?newSchoolName=${newSchoolName}`;
+  putDataById(id: number, eleve: Eleve): Observable<Eleve> {
+    const url = `${this.apiUrl}/eleve/updateById/${id}`;
     return this.http.put<Eleve>(url, eleve).pipe(
       catchError(this.handleError)
     );

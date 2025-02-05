@@ -172,7 +172,7 @@ export class HomeComponent implements OnInit {
         schools: this.newEleve.schools
       };
 
-      this.apiService.putDataByName(this.eleves[this.selectedEleveIndex].nom, updatedEleve, this.newEleve.schools.nom).subscribe({
+      this.apiService.putDataById(updatedEleve.id, updatedEleve).subscribe({
         next: (response) => {
           if (this.selectedEleveIndex !== null) {
             const school = this.schools.find(s => s.id === updatedEleve.schoolId);
